@@ -1,0 +1,14 @@
+{
+  "publishedJavadocs": [
+    {
+      "repository": "blockgamekeyvalue",
+      "tag": "v0.1.0"
+    }
+  ],
+  "publishedMavens": [
+    {
+      "repository": "blockgamekeyvalue",
+      "tag": "v0.1.0"
+    }
+  ]
+}
