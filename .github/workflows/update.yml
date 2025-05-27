@@ -1,0 +1,45 @@
+name: Gradle Java Magic
+
+on: workflow_dispatch
+
+permissions:
+  contents: write
+
+jobs:
+  gradle-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "21"
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Setup JBang
+        uses: jbangdev/setup-jbang@main
+
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Setup Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Build javadocs and maven repository
+        run: |
+          jbang GithubJavaMagic.java ./gh-pages
+          cd gh-pages
+          git add -A
+          git commit -m "Rebuild"
+          git push

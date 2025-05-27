@@ -1,0 +1,12 @@
+<!doctype html>
+<html>
+    <head><title>Maven</title></head>
+    <body>
+        <h2>Javadocs</h2>
+        <ul>
+            {{#each state.publishedJavadocs}}
+                <a href="javadoc/{{repository}}/{{tag}}">{{repository}} {{tag}}</a>
+            {{/each}}
+        </ul>
+    </body>
+</html>
