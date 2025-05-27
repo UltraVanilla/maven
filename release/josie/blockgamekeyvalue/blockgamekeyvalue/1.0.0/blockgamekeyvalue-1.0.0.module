@@ -1,0 +1,78 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "josie.blockgamekeyvalue",
+    "module": "blockgamekeyvalue",
+    "version": "1.0.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.14"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 21,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.jspecify",
+          "module": "jspecify",
+          "version": {
+            "requires": "1.0.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "blockgamekeyvalue-1.0.0.jar",
+          "url": "blockgamekeyvalue-1.0.0.jar",
+          "size": 5613,
+          "sha512": "0daa1c66c8e80d64a84544757fc946dab04d4e830035a34999cb8721ce1985fe545bbf293824f966097249c91c43f2feb789b1fe40964b251e5c96fcf08544ef",
+          "sha256": "2ed84bb7aa5b1d0be6856f523247009945f6ff47ade5ae79ceb03d4d7c20c52c",
+          "sha1": "6e28a06e37af719ab4d59ecde92f3132817241a4",
+          "md5": "47b07d05b2f80b05bdeaa0a1cc3f4e60"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 21,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "org.jspecify",
+          "module": "jspecify",
+          "version": {
+            "requires": "1.0.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "blockgamekeyvalue-1.0.0.jar",
+          "url": "blockgamekeyvalue-1.0.0.jar",
+          "size": 5613,
+          "sha512": "0daa1c66c8e80d64a84544757fc946dab04d4e830035a34999cb8721ce1985fe545bbf293824f966097249c91c43f2feb789b1fe40964b251e5c96fcf08544ef",
+          "sha256": "2ed84bb7aa5b1d0be6856f523247009945f6ff47ade5ae79ceb03d4d7c20c52c",
+          "sha1": "6e28a06e37af719ab4d59ecde92f3132817241a4",
+          "md5": "47b07d05b2f80b05bdeaa0a1cc3f4e60"
+        }
+      ]
+    }
+  ]
+}
