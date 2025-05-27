@@ -1,0 +1,13 @@
+{
+    "repositories": [
+        {
+            "url": "https://github.com/UltraVanilla/blockgamekeyvalue",
+            "gradleProjects": [
+                {
+                    "name": "blockgamekeyvalue",
+                    "path": "."
+                }
+            ]
+        }
+    ]
+}
