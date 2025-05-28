@@ -5,7 +5,14 @@
         <h2>Javadocs</h2>
         <ul>
             {{#each state.publishedJavadocs}}
-                <li><a href="javadoc/{{repository}}/{{tag}}">{{repository}} {{tag}}</a></li>
+                <li>
+                    <p><strong>{{repository}}</strong> {{tag}}</p>
+                    <ul>
+                        {{#each paths}}
+                            <li><a href="javadoc/{{repository}}/{{tag}}/{{this}}">{{this}}</a></li>
+                        {{/each}}
+                    </ul>
+                </li>
             {{/each}}
         </ul>
     </body>

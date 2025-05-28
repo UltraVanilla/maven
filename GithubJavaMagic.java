@@ -6,11 +6,8 @@ import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.util.*;
 import java.util.stream.Stream;
 
 import com.github.jknack.handlebars.Handlebars;
@@ -58,9 +55,6 @@ class GithubJavaMagic {
             }
             final var tags = getGitTags(gitPath);
             for (final var gradleProject : repository.gradleProjects()) {
-                System.out.println(gson.toJson(repository));
-                System.out.println(gson.toJson(gradleProject));
-                System.out.println(gson.toJson(tags));
 
                 for (final var tag : tags) {
                     final var publishedMaven = new PublishedMaven(gradleProject.name(), tag);
@@ -78,6 +72,7 @@ class GithubJavaMagic {
                         continue;
                     }
 
+                    System.err.println("Building artifacts for %s %s...".formatted(gradleProject.name(), tag));
                     final var buildArgs = List.of("./gradlew", "publishToMavenLocal");
                     final var pbBuild = new ProcessBuilder(buildArgs)
                             .inheritIO();
@@ -90,11 +85,14 @@ class GithubJavaMagic {
 
                     state.publishedMavens().add(publishedMaven);
 
-                    final var publishedJavadoc = new PublishedJavadoc(gradleProject.name(), tag);
-                    if (state.publishedJavadocs().contains(publishedJavadoc)) {
+                    if (state.publishedJavadocs().stream().anyMatch(javadocState ->
+                            javadocState.repository().equals(gradleProject.name()) &&
+                            javadocState.tag().equals(tag)
+                    )) {
                         continue;
                     }
 
+                    System.err.println("Building javadocs for %s %s...".formatted(gradleProject.name(), tag));
                     final var javadocArgs = List.of("./gradlew", "javadoc");
                     final var pbJavadoc = new ProcessBuilder(javadocArgs)
                             .inheritIO();
@@ -105,12 +103,20 @@ class GithubJavaMagic {
                         continue;
                     }
 
-                    final var javadocSubPath = javadocPath.resolve(gradleProject.name());
+                    final var javadocSubPath = javadocPath.resolve(gradleProject.name()).resolve(tag);
                     Files.createDirectories(javadocSubPath);
 
-                    Files.move(gitPath.resolve("build").resolve("docs").resolve("javadoc"),
-                            javadocSubPath.resolve(tag));
+                    final var foundJavadocDirs = findJavadocDirs(gitPath);
 
+                    final var paths = new ArrayList<String>();
+
+                    for (final var javadocDir : foundJavadocDirs) {
+                        Files.createDirectories(javadocSubPath.resolve(javadocDir).getParent());
+                        Files.move(gitPath.resolve(javadocDir), javadocSubPath.resolve(javadocDir));
+                        paths.add(javadocDir.toString());
+                    }
+
+                    final var publishedJavadoc = new PublishedJavadoc(gradleProject.name(), tag, paths);
                     state.publishedJavadocs().add(publishedJavadoc);
                 }
             }
@@ -232,6 +238,22 @@ class GithubJavaMagic {
             throw new RuntimeException(e);
         }
     }
+
+    public static List<Path> findJavadocDirs(Path rootDir) throws IOException {
+        final var result = new ArrayList<Path>();
+
+        Files.walkFileTree(rootDir, new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
+                if (file.getFileName().toString().equals("index.html")) {
+                    result.add(rootDir.relativize(file).getParent());
+                }
+                return FileVisitResult.CONTINUE;
+            }
+        });
+
+        return result;
+    }
 }
 
 record Configuration(List<RepositoryConfiguration> repositories) { }
@@ -242,6 +264,6 @@ record GradleProject(String name, String path) { }
 
 record State(List<PublishedJavadoc> publishedJavadocs, List<PublishedMaven> publishedMavens) {}
 
-record PublishedJavadoc(String repository, String tag) {}
+record PublishedJavadoc(String repository, String tag, List<String> paths) {}
 
 record PublishedMaven(String repository, String tag) {}
