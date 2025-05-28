@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"josie.blockgamekeyvalue","l":"josie.blockgamekeyvalue"},{"m":"josie.blockgamekeyvalue","l":"josie.blockgamekeyvalue.exceptions"}];updateSearchResults();
