@@ -1,0 +1,28 @@
+{
+  "publishedJavadocs": [
+    {
+      "repository": "blockgamekeyvalue",
+      "tag": "v0.1.0",
+      "paths": [
+        "build/docs/javadoc"
+      ]
+    },
+    {
+      "repository": "blockgamekeyvalue",
+      "tag": "v1.0.0",
+      "paths": [
+        "build/docs/javadoc"
+      ]
+    }
+  ],
+  "publishedMavens": [
+    {
+      "repository": "blockgamekeyvalue",
+      "tag": "v0.1.0"
+    },
+    {
+      "repository": "blockgamekeyvalue",
+      "tag": "v1.0.0"
+    }
+  ]
+}
